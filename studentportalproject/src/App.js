@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import './assets/css/compo.css'
+import React, { useState } from 'react';
+import { students as studentsData } from "./assets/StudentsDb";
+import StuDataTable from "./components/stuDataTable";
+import ProfileView from "./components/profileView";
 
 function App() {
+  const [selectedStudent, setSelectedStudent] = useState(studentsData[0]);
+  const [fontSize, setFontSize] = useState('medium');
+
+  const handleFontSizeChange = (size) => {
+    setFontSize(size);
+  };
+
+  const handleViewProfile = (student) => {
+    setSelectedStudent(student);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1 className="title">Student Information Portal</h1>
+      
+
+      <div className="font-selector">
+          <hr/>
+          <p>Change font size :  
+          <button onClick={() => handleFontSizeChange('small')}>Small</button>
+          <button onClick={() => handleFontSizeChange('medium')}>Medium</button>
+          <button onClick={() => handleFontSizeChange('large')}>Large</button> </p>
+          <hr/>
+        </div>
+
+      <div className={`outerDiv ${fontSize}`}>
+          <StuDataTable students={studentsData} handleViewProfile={handleViewProfile} />
+
+          <ProfileView selectedStudent={selectedStudent} />
+      </div>
     </div>
   );
 }
